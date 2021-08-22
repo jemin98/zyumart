@@ -40,6 +40,7 @@ class _CartState extends State<Cart> {
 
     if (is_logged_in.value == true) {
       fetchData();
+      print("yes");
     }
   }
 
