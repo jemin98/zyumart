@@ -14,6 +14,7 @@ import 'package:active_ecommerce_flutter/repositories/product_repository.dart';
 import 'package:active_ecommerce_flutter/app_config.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:active_ecommerce_flutter/screens/cart.dart';
+import 'package:flutter/services.dart';
 import 'package:active_ecommerce_flutter/custom/toast_component.dart';
 import 'package:toast/toast.dart';
 import 'package:active_ecommerce_flutter/ui_elements/product_card.dart';
@@ -59,6 +60,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     if (AppConfig.purchase_code == "") {
       initPiratedAnimation();
     }
+
   }
 
   fetchData() async {
@@ -730,215 +732,220 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Stack(
-      fit: StackFit.expand,
-      overflow: Overflow.visible,
-      children: [
-        Opacity(
-          opacity: (1 - shrinkOffset / expandedHeight),
-          // child: buildHomeCarouselSlider(),
-          child: Container(color: Colors.orange,),
-        ),
-        Opacity(
-          opacity: (shrinkOffset / expandedHeight),
-          child: Container(
-            color: Colors.black,
-            // height: MediaQuery.of(context).size.height * 0.01,
-            width: MediaQuery.of(context).size.width,
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle(
+        statusBarIconBrightness:  Brightness.light,
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        overflow: Overflow.visible,
+        children: [
+          Opacity(
+            opacity: (1 - shrinkOffset / expandedHeight),
+            // child: buildHomeCarouselSlider(),
+            child: Container(color: Colors.orange,),
           ),
-        ),
-        Positioned(
-          top: MediaQuery.of(context).size.height * 0.015,
-          // left: 2,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Center(
-              child: Opacity(
-                opacity: 1,
-                /*shrinkOffset / expandedHeight,*/
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 1.01,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return Profile();
-                                },
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Icon(Icons.account_circle, size: 34,color: Colors.white,),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return Filter();
-                                },
-                              ),
-                            );
-                          },
-                          child: Card(
-                            elevation: 0,
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black, width: 1),
-                              borderRadius: BorderRadius.circular(4),
+          Opacity(
+            opacity: (shrinkOffset / expandedHeight),
+            child: Container(
+              color: Colors.black,
+              // height: MediaQuery.of(context).size.height * 0.01,
+              width: MediaQuery.of(context).size.width,
+            ),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.02,
+            // left: 2,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Center(
+                child: Opacity(
+                  opacity: 1,
+                  /*shrinkOffset / expandedHeight,*/
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 1.01,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Profile();
+                                  },
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Icon(Icons.account_circle, size: 34,color: Colors.white,),
                             ),
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * 0.055,
-                              width: MediaQuery.of(context).size.width * 0.75,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0, right: 8,),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.search,
-                                      size: 20,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("Search"),
-                                  ],
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Filter();
+                                  },
+                                ),
+                              );
+                            },
+                            child: Card(
+                              elevation: 0,
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Container(
+                                height: MediaQuery.of(context).size.height * 0.050,
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, right: 8,),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.search,
+                                        size: 20,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text("Search"),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return Cart(
-                                        has_bottomnav: false,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                              child: Icon(Icons.shopping_cart, size: 34,color: Colors.white,)),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Cart(
+                                          has_bottomnav: false,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Icon(Icons.shopping_cart, size: 34,color: Colors.white,)),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        Positioned(
-          top: MediaQuery.of(context).size.height * 0.015,
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.02,
 
-          // left: 2,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Center(
-              child: Opacity(
-                opacity: 1 - shrinkOffset / expandedHeight,
-                /*shrinkOffset / expandedHeight,*/
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 1.01,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return Profile();
-                                },
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Icon(Icons.account_circle, size: 34,color: Colors.white,),
+            // left: 2,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Center(
+                child: Opacity(
+                  opacity: 1 - shrinkOffset / expandedHeight,
+                  /*shrinkOffset / expandedHeight,*/
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 1.01,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Profile();
+                                  },
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Icon(Icons.account_circle, size: 34,color: Colors.white,),
+                            ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return Filter();
-                                },
-                              ),
-                            );
-                          },
-                          child: Card(
-                            elevation: 0,
-                            color: Colors.white,
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * 0.050,
-                              width: MediaQuery.of(context).size.width * 0.75,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0, right: 8,),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(
-                                      Icons.search,
-                                      size: 20,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("Search"),
-                                  ],
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Filter();
+                                  },
+                                ),
+                              );
+                            },
+                            child: Card(
+                              elevation: 0,
+                              color: Colors.white,
+                              child: Container(
+                                height: MediaQuery.of(context).size.height * 0.050,
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8.0, right: 8,),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(
+                                        Icons.search,
+                                        size: 20,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text("Search"),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return Cart(
-                                        has_bottomnav: false,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                              child: Icon(Icons.shopping_cart, size: 34,color: Colors.white,)),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Cart(
+                                          has_bottomnav: false,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Icon(Icons.shopping_cart, size: 34,color: Colors.white,)),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
