@@ -12,6 +12,8 @@ import 'package:active_ecommerce_flutter/repositories/shop_repository.dart';
 import 'package:active_ecommerce_flutter/helpers/reg_ex_inpur_formatter.dart';
 import 'package:active_ecommerce_flutter/repositories/product_repository.dart';
 import 'package:active_ecommerce_flutter/helpers/shimmer_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class WhichFilter {
   String option_key;
@@ -49,6 +51,7 @@ class _FilterState extends State<Filter> {
   ScrollController _shopScrollController = ScrollController();
   List searchresult = [];
   List searchresult1 = [];
+  bool issearch = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   ScrollController _scrollController;
@@ -59,6 +62,16 @@ class _FilterState extends State<Filter> {
   List<DropdownMenuItem<WhichFilter>> _dropdownWhichFilterItems;
   List<dynamic> _selectedCategories = [];
   List<dynamic> _selectedBrands = [];
+  final List<String> testing = [
+    'Baby Foods',
+    'Confectionery',
+  ];
+  final List<String> hotSearch = [
+    'Foods Chain',
+    'Confectionery',
+    'home',
+    'iphone assemblies'
+  ];
 
   final TextEditingController _searchController = new TextEditingController();
   final TextEditingController _minPriceController = new TextEditingController();
@@ -94,6 +107,7 @@ class _FilterState extends State<Filter> {
   int listor = 0;
 
   get color => null;
+
   //----------------------------------------
 
   fetchFilteredBrands() async {
@@ -415,7 +429,7 @@ class _FilterState extends State<Filter> {
       backgroundColor: Colors.white,
       body: Stack(overflow: Overflow.visible, children: [
         _selectedFilter.option_key == 'product'
-            ? buildProductList()
+            ? issearch == false ? Container() : buildProductList()
             : (_selectedFilter.option_key == 'brands'
                 ? buildBrandList()
                 : buildShopList()),
@@ -423,7 +437,7 @@ class _FilterState extends State<Filter> {
           top: 0.0,
           left: 0.0,
           right: 0.0,
-          child: buildAppBar(context),
+          child: Container(color: Colors.grey,child: buildAppBar(context)),
         ),
         Align(
             alignment: Alignment.bottomCenter,
@@ -446,52 +460,168 @@ class _FilterState extends State<Filter> {
         backgroundColor: Colors.white.withOpacity(0.95),
         centerTitle: false,
         flexibleSpace: Padding(
-          padding: const EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
           child: Column(
             children: [
-              buildTopAppbar(context),
-              if (searchresult.length == 0)
-                Container()
-              else
-                Container(
-                  child: ListView.builder(
-                    itemCount: searchresult.length,
-                    controller: _scrollController,
-                    // padding: EdgeInsets.all(16),
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      // 3
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _searchController.text = searchresult[index].name;
-                            searchOperation1(searchresult[index].name);
-                            searchresult.clear;
-                          });
-                        },
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15.0, bottom: 15),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  searchresult[index].name,
-                                  style: TextStyle(
-                                    fontSize: 18,
+              Container(child: buildTopAppbar(context)),
+              if (issearch == true)
+                if (searchresult.length == 0)
+                  (_searchController.text == "")
+                      ? Padding(
+                          padding: const EdgeInsets.only(
+                              top: 20, right: 8.0, left: 15),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.8,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.grey[50],
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Search Histroy",
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
+                                    Icon(Icons.delete),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.01,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: StaggeredGridView.countBuilder(
+                                    itemCount: testing.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    crossAxisCount: 8,
+                                    staggeredTileBuilder: (int index) {
+                                      if (testing[index].length < 5) {
+                                        return StaggeredTile.count(2, 1);
+                                      } else if (testing[index].length < 16) {
+                                        return StaggeredTile.count(3, 1);
+                                      } else {
+                                        return StaggeredTile.count(4, 1);
+                                      }
+                                    },
+                                    mainAxisSpacing: 12.0,
+                                    crossAxisSpacing: 10.0,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Card(
+                                        color: Colors.grey[100],
+                                        child: Center(
+                                            child: Text(
+                                          testing[index],
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 16),
+                                        )),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.01,
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      "Hot Searches",
+                                      style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: StaggeredGridView.countBuilder(
+                                    itemCount: hotSearch.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    crossAxisCount: 8,
+                                    staggeredTileBuilder: (int index) {
+                                      if (hotSearch[index].length < 5) {
+                                        return StaggeredTile.count(2, 1);
+                                      } else if (hotSearch[index].length < 16) {
+                                        return StaggeredTile.count(3, 1);
+                                      } else {
+                                        return StaggeredTile.count(4, 1);
+                                      }
+                                    },
+                                    mainAxisSpacing: 12.0,
+                                    crossAxisSpacing: 10.0,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Card(
+                                        color: Colors.grey[100],
+                                        child: Center(
+                                            child: Text(
+                                          hotSearch[index],
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 16),
+                                        )),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container()
+                else
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.9,
+                    child: ListView.builder(
+                      itemCount: searchresult.length,
+                      controller: _scrollController,
+                      // padding: EdgeInsets.all(16),
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        // 3
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _searchController.text = searchresult[index].name;
+                              searchOperation1(searchresult[index].name);
+                              searchresult.clear;
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15.0, bottom: 15),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    searchresult[index].name,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    color: Colors.white,
                   ),
-                  color: Colors.white,
-                ),
             ],
           ),
         ));
@@ -887,53 +1017,96 @@ class _FilterState extends State<Filter> {
   }
 
   Row buildTopAppbar(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <
-        Widget>[
-      IconButton(
-        icon: Icon(Icons.arrow_back, color: MyTheme.dark_grey),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
-      Container(
-        width: MediaQuery.of(context).size.width * .6,
-        child: Container(
-          child: Padding(
-              padding: MediaQuery.of(context).viewPadding.top >
-                      30 //MediaQuery.of(context).viewPadding.top is the statusbar height, with a notch phone it results almost 50, without a notch it shows 24.0.For safety we have checked if its greater than thirty
-                  ? const EdgeInsets.symmetric(vertical: 36.0, horizontal: 0.0)
-                  : const EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),
-              child: TextField(
-                controller: _searchController,
-                onTap: () {},
-                onChanged: searchOperation,
-                //autofocus: true,
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.arrow_back, color: MyTheme.dark_grey),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.07,
+            child: Card(
+              elevation: 0,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.black, width: 1),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.search, color: MyTheme.dark_grey,size: 20,),
+                      onPressed: () {
+                        _searchKey = _searchController.text.toString();
+                        setState(() {
+                          issearch == false;
+                        });
+                        _onSearchSubmit();
+                      }),
+                  Container(
+                    // height: MediaQuery.of(context).size.height * 0.050,
+                    width: MediaQuery.of(context).size.width * 0.65,
+                    child: Padding(
+                        /* padding: MediaQuery.of(context).viewPadding.top >
+                            30 //MediaQuery.of(context).viewPadding.top is the statusbar height, with a notch phone it results almost 50, without a notch it shows 24.0.For safety we have checked if its greater than thirty
+                        ? const EdgeInsets.symmetric(vertical: 36.0, horizontal: 0.0)
+                        : const EdgeInsets.symmetric(vertical: 14.0, horizontal: 0.0),*/
+                        padding: const EdgeInsets.only(
+                          left: 8.0,
+                          right: 8,
+                        ),
+                        child: TextField(
 
-                onSubmitted: (txt) {
-                  _searchKey = txt;
-                  setState(() {});
-                  _onSearchSubmit();
-                },
-                decoration: InputDecoration(
-                    hintText: "Search here ?",
-                    hintStyle: TextStyle(
-                        fontSize: 12.0, color: MyTheme.textfield_grey),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: MyTheme.white, width: 0.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: MyTheme.white, width: 0.0),
-                    ),
-                    contentPadding: EdgeInsets.all(0.0)),
-              )),
-        ),
-      ),
-      IconButton(
-          icon: Icon(Icons.search, color: MyTheme.dark_grey),
-          onPressed: () {
-            _searchKey = _searchController.text.toString();
-            setState(() {});
-            _onSearchSubmit();
-          }),
-      IconButton(
+                          controller: _searchController,
+                          onTap: () {
+                            setState(() {
+                              issearch == true;
+                            });
+                          },
+                          onChanged: searchOperation,
+                          //autofocus: true,
+                          onSubmitted: (txt) {
+                            _searchKey = txt;
+                            setState(() {
+                              issearch == false;
+                            });
+                            _onSearchSubmit();
+                          },
+                          decoration: InputDecoration(
+                             /* prefixIcon: IconButton(
+                                  icon: Icon(Icons.search, color: MyTheme.dark_grey),
+                                  onPressed: () {
+                                    _searchKey = _searchController.text.toString();
+                                    setState(() {
+                                      issearch == false;
+                                    });
+                                    _onSearchSubmit();
+                                  }),*/
+                              hintText: "Search",
+                              hintStyle: TextStyle(
+                                  fontSize: 14.0, color: MyTheme.textfield_grey),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyTheme.white, width: 0.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: MyTheme.white, width: 0.0),
+                              ),
+                              contentPadding: EdgeInsets.all(0.0)),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          )
+
+          /*IconButton(
           icon: Icon(Icons.list_outlined),
           onPressed: () {
             setState(() {
@@ -943,8 +1116,8 @@ class _FilterState extends State<Filter> {
                 listor = 0;
               }
             });
-          })
-    ]);
+          })*/
+        ]);
   }
 
   Drawer buildFilterDrawer() {

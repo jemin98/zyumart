@@ -50,7 +50,7 @@ class _CategoryListState extends State<CategoryList> {
                   label: Text('First'),
 
                 ),
-                NavigationRailDestination(
+                NavigationRailDestination(product
                   icon: Icon(Icons.bookmark_border),
                   selectedIcon: Icon(Icons.book),
                   label: Text('Second'),

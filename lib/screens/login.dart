@@ -497,7 +497,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Container(
+                                 /* Container(
                                     height: MediaQuery.of(context).size.height *
                                         0.048,
                                     width:
@@ -540,7 +540,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                         ),
                                       ],
                                     ),
-                                  ),
+                                  ),*/
                                 ],
                               ),
                             ),
@@ -702,7 +702,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  Container(
+                                  /*Container(
                                     height: MediaQuery.of(context).size.height *
                                         0.048,
                                     width:
@@ -745,7 +745,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                         ),
                                       ],
                                     ),
-                                  ),
+                                  ),*/
                                 ],
                               ),
                             ),

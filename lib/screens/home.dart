@@ -22,6 +22,8 @@ import 'package:active_ecommerce_flutter/helpers/shimmer_helper.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:scaling_header/scaling_header.dart';
 import 'package:active_ecommerce_flutter/helpers/shared_value_helper.dart';
+// import 'searchhistory.dart';
+
 
 class Home extends StatefulWidget {
   Home({Key key, this.title, this.show_back_button = false}) : super(key: key);
@@ -742,8 +744,8 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
         children: [
           Opacity(
             opacity: (1 - shrinkOffset / expandedHeight),
-            // child: buildHomeCarouselSlider(),
-            child: Container(color: Colors.orange,),
+            child: buildHomeCarouselSlider(),
+            // child: Container(color: Colors.green,),
           ),
           Opacity(
             opacity: (shrinkOffset / expandedHeight),
@@ -992,8 +994,8 @@ class _buildHomeCarouselSliderState extends State<buildHomeCarouselSlider> {
                   autoPlay: true,
                   autoPlayInterval: Duration(seconds: 5),
                   autoPlayAnimationDuration: Duration(milliseconds: 1000),
-                  autoPlayCurve: Curves.easeInCubic,
-                  enlargeCenterPage: true,
+                  // autoPlayCurve: Curves.easeInCubic,
+                  // enlargeCenterPage: true,
                   scrollDirection: Axis.horizontal,
                   onPageChanged: (index, reason) {
                     setState(() {
@@ -1006,6 +1008,7 @@ class _buildHomeCarouselSliderState extends State<buildHomeCarouselSlider> {
                     return Stack(
                       children: <Widget>[
                         Container(
+                          height: MediaQuery.of(context).size.height * 0.28,
                             width: double.infinity,
                             margin: EdgeInsets.symmetric(horizontal: 5.0),
                             child: ClipRRect(
@@ -1017,7 +1020,7 @@ class _buildHomeCarouselSliderState extends State<buildHomeCarouselSlider> {
                                   image: AppConfig.BASE_PATH + i,
                                   fit: BoxFit.fill,
                                 ))),
-                        Align(
+                       /* Align(
                           alignment: Alignment.bottomCenter,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -1037,7 +1040,7 @@ class _buildHomeCarouselSliderState extends State<buildHomeCarouselSlider> {
                               );
                             }).toList(),
                           ),
-                        ),
+                        ),*/
                       ],
                     );
                   },
